@@ -16,7 +16,7 @@ End Code
 <div class="wrapper">
     <div class="search-input">
         <a href="" target="_blank" hidden></a>
-        <input type="text" id="SearchAnime" placeholder="Type to search.." onkeyup="SearchAnime();">
+        <input type="text" id="SearchAnime" placeholder="Type to search.."  onkeyup="SearchAnime();">
         <div id="autocom" class="autocom-box">
 
         </div>
@@ -24,30 +24,18 @@ End Code
     </div>
 </div>
 
-<div class="video-view">
+<div class="video-view" id="SongList">
     <h2>Opening songs:</h2>
-    @*@For Each item In ViewBag.OpeningYoutubeLinks
-        @<iframe 
-                 src="@item">
-        </iframe>
 
-
-    Next*@
 
     <h2>Ending songs:</h2>
 
-    @*@For Each item In ViewBag.EndingYoutubeLinks
-        @<iframe 
-                 src="@item">
-        </iframe>
 
-
-    Next*@
 
 </div>
 
 <!-- sample spotify embed -->
-<iframe src="https://open.spotify.com/embed/track/51Z2IzJvLCnZaIpBV0IYRr" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<iframe src="https://open.spotify.com/embed/track/@ViewData("SongID")" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
 <script type="text/javascript">
     // getting all required elements
@@ -61,6 +49,14 @@ End Code
     //$(".autocom-box").change(function () {
     //    $(".autocom-box").attr('size', 1);
     //});
+
+    function GetSpotifySongs(ID) {
+        var url = '@Url.Action("", "Home")'
+        $("#SongList").html(
+
+        //get patial view
+        );
+    }
 
     function SearchAnime() {
         var CurrentValue = $("#SearchAnime").val();
@@ -76,10 +72,13 @@ End Code
                 DisplayDropdown.empty();
 
                 $.each(data, function (key, val) {
+                    var action = "GetSpotifySongs(" + val + ")";
                     DisplayDropdown.append($('<li/>', {
                         text: key,
                         value: val,
-                        id: id
+                        id: id,
+                        onclick: action
+
                     }));
                     id = id + 1;
                 })

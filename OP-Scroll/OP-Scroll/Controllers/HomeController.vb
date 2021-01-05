@@ -13,59 +13,25 @@ Public Class HomeController
     <HttpGet>
     Function Index() As ActionResult
         ' GetSpotifyLinks()
-        Controllers.MalScrapeController.GetSongs(5114)
+        'Controllers.MalScrapeController.GetSongs(5114)
 
-
-
-        'Dim YouTubeLinks As New List(Of String)
-        'Dim OpeningYoutubeLinks As New List(Of String)
-        'Dim EndingYoutubeLinks As New List(Of String)
-        'Dim i = 0
-        'Dim ED_Start As Integer = Nothing
-
-        'YouTubeLinks = GetYoutubeLinks()
-
-        'If Not YouTubeLinks Is Nothing Then
-
-        '    For Each song In YouTubeLinks
-
-        '        If song = "EDS" Then
-        '            ED_Start = i
-        '        End If
-        '        i = i + 1
-        '    Next
-
-        '    For j As Integer = 0 To ED_Start - 1
-        '        OpeningYoutubeLinks.Add(YouTubeLinks(j))
-
-        '    Next
-
-        '    For k As Integer = ED_Start + 1 To YouTubeLinks.Count - 1
-        '        EndingYoutubeLinks.Add(YouTubeLinks(k))
-        '    Next
-        '    ' now can access lists in front end 
-        '    ViewBag.OpeningYoutubeLinks = OpeningYoutubeLinks
-        '    ViewBag.EndingYoutubeLinks = EndingYoutubeLinks
-
-        'End If
+        ViewData("SongID") = GetSpotifyLinks()
 
 
 
 
-        'Dim resultYT = Controllers.YoutubeAPIController.GetVideoURL("ano hana opening")
-        'Dim client As HttpClient = Controllers.APIController.AuthorizeAPI()
-        'ViewData("YouTubeLink") = resultYT
-
-        ' get MAL api
-
-
-        ' GET Youtube API this will be its own function. called by MAL api results return first video id 
-        'then in frontend youtubelink schema is https://www.youtube.com/watch?v=
 
 
 
 
         Return View()
+    End Function
+
+
+    Function SearchResult(ByVal ID As Integer)
+        Controllers.MalScrapeController.GetSongs(5114)
+        Return PartialView()
+
     End Function
     Function GetSpotifyLinks(Optional ByVal song As String = "Roadhouse Blues")
         Dim client As HttpClient = Controllers.SpotifyAPIController.GetSpotifyClient()
@@ -97,12 +63,12 @@ Public Class HomeController
                     If piece.StartsWith("/") Then
                         SongID = Controllers.YoutubeAPIController.getBetween(piece, "/", """"c)
                     End If
-                    Console.WriteLine(piece)
+
                 Next
 
 
 
-
+                Return SongID
 
                 'For Each item In AnimeList
                 '    Console.WriteLine(item)
@@ -249,27 +215,12 @@ Public Class HomeController
             Catch ex As Exception
 
             End Try
-            'GET API
+
 
         End If
 
 
 
-        '' fake List 
-        'AnimeList.Add("Ano Hana")
-        'AnimeList.Add("Agata sense")
-        'AnimeList.Add("Ava")
-        'AnimeList.Add("Love Hina")
-        'AnimeList.Add("Lalalalala la")
-
-        '' make another key called value for the MAL anime ID
-        'QueryList = (From items In AnimeList Where items.ToLower().StartsWith(SearchKeyWord.ToLower()) Select New With {
-        '    Key .lable = items.ToString()}).ToList()
-
-
-
-
-        'Return Json(QueryList, JsonRequestBehavior.AllowGet)
 
     End Function
 
