@@ -14,8 +14,8 @@ Public Class HomeController
     Function Index() As ActionResult
         ' GetSpotifyLinks()
         'Controllers.MalScrapeController.GetSongs(5114)
-
-        ViewData("SongID") = GetSpotifyLinks()
+        'SearchResult()
+        'ViewData("SongID") = GetSpotifyLinks()
 
 
 
@@ -28,14 +28,26 @@ Public Class HomeController
     End Function
 
 
-    Function SearchResult(ByVal ID As Integer)
-        Controllers.MalScrapeController.GetSongs(5114)
-        Return PartialView()
+    Function SearchResult(Optional ByVal ID As Integer = 5114)
+        Dim SongsAndArtist As IDictionary(Of String, String) = Controllers.MalScrapeController.GetSongs(ID)
+        Dim SpotifyIDs As New List(Of String)
+        For Each n In SongsAndArtist
+            Dim link = GetSpotifyLinks(n.Key, n.Value)
+            If Not link Is Nothing Then
+                SpotifyIDs.Add(link)
+            End If
+
+        Next
+
+        ViewBag.SpotifyIDs = SpotifyIDs
+
+
+        Return PartialView("_Spotifyresults")
 
     End Function
-    Function GetSpotifyLinks(Optional ByVal song As String = "Roadhouse Blues")
+    Function GetSpotifyLinks(ByVal song As String, ByVal Artist As String)
         Dim client As HttpClient = Controllers.SpotifyAPIController.GetSpotifyClient()
-        Dim QueryString As String ="search?type=track&limit=1&q=" & song
+        Dim QueryString As String = "search?type=track&limit=1&q=" & song & "%20artist:" & Artist
         Using client
             Dim responseTask = client.GetAsync(QueryString)
             responseTask.Wait()

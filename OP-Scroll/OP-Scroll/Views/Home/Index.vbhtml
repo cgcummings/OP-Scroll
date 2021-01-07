@@ -25,17 +25,17 @@ End Code
 </div>
 
 <div class="video-view" id="SongList">
-    <h2>Opening songs:</h2>
+    @*<h2>Opening songs:</h2>
 
 
-    <h2>Ending songs:</h2>
+    <h2>Ending songs:</h2>*@
 
 
 
 </div>
 
 <!-- sample spotify embed -->
-<iframe src="https://open.spotify.com/embed/track/@ViewData("SongID")" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+@*<iframe src="https://open.spotify.com/embed/track/@ViewData("SongID")" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>*@
 
 <script type="text/javascript">
     // getting all required elements
@@ -51,11 +51,20 @@ End Code
     //});
 
     function GetSpotifySongs(ID) {
-        var url = '@Url.Action("", "Home")'
-        $("#SongList").html(
 
-        //get patial view
-        );
+       
+
+            $.ajax({
+                dataType: "html",
+                contentType: 'application/html; charset=utf-8',  
+                type: "GET",
+                url: '@Url.Action("SearchResult", "Home")?ID=' + ID,
+                cache: false,
+                success: function (data) {
+                    $('#SongList').html(data);  
+                }
+            })
+        
     }
 
     function SearchAnime() {
@@ -102,8 +111,8 @@ End Code
 
                     }).done(function () {
                         searchWrapper.classList.add("active");
-                      
-                        DisplayDropdown.attr('size', 3);
+
+                     
                     });
                 //$("#autocom").find("li").each(function () {
                 //    console.log("found");
@@ -115,15 +124,15 @@ End Code
 
 
     }
-    function select(element) {
-        let selectData = element.textContent;
-        inputBox.value = selectData;
-        // fix javascript below to work with our site
-        icon.onclick = () => {
-            webLink = "https://www.google.com/search?q=" + selectData;
-            linkTag.setAttribute("href", webLink);
-            linkTag.click();
-        }
-        searchWrapper.classList.remove("active");
-    }
+    //function select(element) {
+    //    let selectData = element.textContent;
+    //    inputBox.value = selectData;
+    //    // fix javascript below to work with our site
+    //    icon.onclick = () => {
+    //        webLink = "https://www.google.com/search?q=" + selectData;
+    //        linkTag.setAttribute("href", webLink);
+    //        linkTag.click();
+    //    }
+    //    searchWrapper.classList.remove("active");
+    //}
 </script>

@@ -38,8 +38,8 @@ Namespace Controllers
 
                         Dim Artist = Regex.Replace(oughtToBeJapaneseRawArtist, "[^\u0000-\u007F]+", String.Empty)
                         If Artist.Contains("(") Or Artist.Contains(")") Then
-                            Artist.Replace("(", "")
-                            Artist.Replace(")", "")
+                            Artist = Artist.Trim(New Char() {"("c, ")"c})
+
                         End If
 
                         'convert song
@@ -48,32 +48,14 @@ Namespace Controllers
 
                         Dim songTitle = Regex.Replace(oughtToBeJapanese, "[^\u0000-\u007F]+", String.Empty)
                         If songTitle.Contains("(") Or songTitle.Contains(")") Then
-                            songTitle.Replace("(", "")
-                            songTitle.Replace(")", "")
+
+                            songTitle = songTitle.Trim(New Char() {"("c, ")"c})
                         End If
                         SongsAndArtist.Add(songTitle, Artist)
                     Next
                 End If
 
-                'If Not OPhtmlList Is Nothing Then
-                '    For Each n In OPhtmlList
-                '        SongList.Add(n.InnerText())
-                '    Next
-
-                'End If
-
-                'If Not EDhtmllist Is Nothing Then
-                '    SongList.Add("EDS")
-                '    For Each n In EDhtmllist
-                '        SongList.Add(n.InnerText())
-                '    Next
-                'End If
-
-                'If Not SongList Is Nothing Then
-                '    Return SongList
-                'Else
-                '    Return Nothing
-                'End If
+                Return SongsAndArtist
             Else
                     Return Nothing
             End If

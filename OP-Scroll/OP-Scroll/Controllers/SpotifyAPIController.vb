@@ -11,7 +11,7 @@ Namespace Controllers
             .BaseAddress = New Uri("https://api.spotify.com/v1/")
             }
 
-            Dim Key As String = "BQDZBqPjiEMlkqhoRo15ukuZhyQn7UxzkmSTz4cckz59Pg4iN4tnhIpXGxWhM9hIhI6RKRv75dZZa-w0o6c"
+            Dim Key As String = "BQDGm1GB6oWblx4DOBpGYUpQnW3TCUXVaOKbqE3KvHuPakS2mPAHWuaV_CdJ0idMjSVrFq2BhK6UHnFxlA8"
 
             client.DefaultRequestHeaders.Authorization = New Headers.AuthenticationHeaderValue("Bearer", Key)
 
